@@ -12,6 +12,20 @@
 
 ## 如何接入 EternaAgent（管理员）
 
+### 前置：启用「发现」页（一次性）
+
+EternaAgent 的 eterna-web profile 默认**不含**上游「发现」tab；需管理员在 profile 里启用实验 bundle：
+
+```bash
+cd $DSH_HOME/profiles/eterna-web
+pnpm add @deepseek-ai/dsh-experimental-plugin-market-bundle@0.2.2-rc.1
+# package.json 的 dsh.profile.bundles 追加该包名 → 重启宿主
+```
+
+（已实测：dsh 0.2.2-rc.1 + Node 24 + pnpm 11.7，2026-11-19。「已安装」页与安装器服务本就随 dsh-base/web-app 装载，无需额外操作。）
+
+### 添加索引源并安装
+
 1. 打开 Web → 侧栏「**插件**」→「**发现**」标签；
 2. 首次使用点「**添加索引源**」，填入本仓库索引 URL：
    `https://raw.githubusercontent.com/mahingbun-dev/eterna-plugins/main/market/index.json`
@@ -19,9 +33,16 @@
 4. 装完到「**已安装**」标签启用/停用；启用行写 profile 补丁，重启后生效。
 
 安装通道 = 上游 dsh `plugin-market`（索引浏览）+ `plugin-manager`（pnpm/git 安装器）。
-**安装与启停是管理员面**（EternaAgent T6.1 守卫：相关 RPC admin 放行、普通用户拒绝）；
 agent 会话内的 `plugin_manager`/`plugin_market` 工具链在企业部署中按 2026-11-09
 三方准入红线维持禁用——插件准入只走本仓库 + 管理员 Web 面，不开放 agent 自装。
+
+> ⚠️ **已知缺口（实测，2026-11-19）**：EternaAgent 计划中的 T6.1「市场 RPC admin-only 门」
+> **尚未实现**（`packages/access/src/user-plugins.ts` 只有注释）。普通登录用户当前也能
+> 通过发现页把插件装进共享 profile（影响全体用户）。机制 = unary RPC 走 owner peer、
+> mux 租户策略不覆盖，access 守卫只拦 `/access/*`；webServer 前缀最长匹配独占，
+> 无法在 `/api/pluginManager` 上叠守卫再转发。
+> **启用前**：单租户/受信环境可直接用；多租户部署应先补该门
+> （详见 agent-basis `docs/PLUGIN-AUTHORING.md` §7）。
 
 **内网部署**：容器不出外网时，索引源可指向内网 http 服务（静态托管本仓 `market/`），
 插件安装的 git 源走内网 git 镜像；`scripts/validate.mjs` 对外部源条目自动跳过本地
