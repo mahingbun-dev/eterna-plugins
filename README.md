@@ -36,13 +36,13 @@ pnpm add @deepseek-ai/dsh-experimental-plugin-market-bundle@0.2.2-rc.1
 agent 会话内的 `plugin_manager`/`plugin_market` 工具链在企业部署中按 2026-11-09
 三方准入红线维持禁用——插件准入只走本仓库 + 管理员 Web 面，不开放 agent 自装。
 
-> ⚠️ **已知缺口（实测，2026-11-19）**：EternaAgent 计划中的 T6.1「市场 RPC admin-only 门」
-> **尚未实现**（`packages/access/src/user-plugins.ts` 只有注释）。普通登录用户当前也能
-> 通过发现页把插件装进共享 profile（影响全体用户）。机制 = unary RPC 走 owner peer、
-> mux 租户策略不覆盖，access 守卫只拦 `/access/*`；webServer 前缀最长匹配独占，
-> 无法在 `/api/pluginManager` 上叠守卫再转发。
-> **启用前**：单租户/受信环境可直接用；多租户部署应先补该门
-> （详见 agent-basis `docs/PLUGIN-AUTHORING.md` §7）。
+> ✅ **市场面 admin-only（T6.1，2026-11-19 已在 agent-basis 实现）**：插件市场的
+> 安装/卸载/启停/索引源写入与 detail-file 路由仅 `admin` 角色可调用（普通用户/审批人
+> 403；无登录会话 401）；非 admin 的「插件」页整页不渲染。实现 = access 在
+> `connection.admit`（全部 `/api` 请求必经点）对市场四前缀收口，双账号无头 E2E
+> 17/17 断言实证（详见 agent-basis `docs/PLUGIN-AUTHORING.md` §7）。
+> **版本注意**：该门随 agent-basis 下一版本发布生效——早于该版本的部署仍是旧行为
+> （单租户/受信环境可用；多租户请升级后再启用发现页）。
 
 **内网部署**：容器不出外网时，索引源可指向内网 http 服务（静态托管本仓 `market/`），
 插件安装的 git 源走内网 git 镜像；`scripts/validate.mjs` 对外部源条目自动跳过本地
