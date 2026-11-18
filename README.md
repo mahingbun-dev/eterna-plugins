@@ -10,6 +10,8 @@
 - 起步模板：[`template/`](template/)（宿主工具插件最小骨架）
 - 发布配方：[`docs/PUBLISHING.md`](docs/PUBLISHING.md)（六步全流程）
 
+> EternaAgent 创造模式用户可跳过手工流程：产品内置 `submit_plugin_to_market` 一键发布（自动走完 bundle 化 → 校验 → 分支 → PR），见 PUBLISHING.md 步骤 0。
+
 ## 如何接入 EternaAgent（管理员）
 
 ### 前置：启用「发现」页（一次性）
