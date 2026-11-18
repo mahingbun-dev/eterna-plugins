@@ -18,7 +18,7 @@
 // 退出码：0 成功；1 失败。
 
 import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
-import { basename, join, relative, resolve } from 'node:path'
+import { basename, dirname, join, relative, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -87,7 +87,13 @@ const walk = (current, prefix) => {
 }
 walk(srcDir, '')
 
-// 3) 清单：源 package.json 为底，去掉 dev 层（devDependencies / scripts.build* / private 保留）
+// 3) 清单：源 package.json 为底，去掉 dev 层（devDependencies / scripts.build* / private 保留），
+//    并把入口路径的 TS 扩展名改写成编译产物扩展名（否则 bundle 加载会去找 .ts——
+//    Node type-stripping 在 node_modules 下拒执行，装载必失败；validate.mjs 同样会红）。
+const retarget = (target) =>
+  typeof target === 'string'
+    ? target.replace(/\.(mts|cts|ts)$/, (_, ext) => ({ mts: '.mjs', cts: '.cjs', ts: '.js' })[ext])
+    : target
 if (!existsSync(join(srcDir, 'package.json'))) {
   errors.push('源码目录缺 package.json')
 } else {
@@ -95,6 +101,17 @@ if (!existsSync(join(srcDir, 'package.json'))) {
   delete manifest.devDependencies
   for (const key of Object.keys(manifest.scripts ?? {})) {
     if (key.startsWith('build')) delete manifest.scripts[key]
+  }
+  if (typeof manifest.main === 'string') manifest.main = retarget(manifest.main)
+  if (manifest.exports !== null && typeof manifest.exports === 'object' && !Array.isArray(manifest.exports)) {
+    for (const [key, value] of Object.entries(manifest.exports)) {
+      if (typeof value === 'string') manifest.exports[key] = retarget(value)
+      else if (value !== null && typeof value === 'object') {
+        for (const [condition, target] of Object.entries(value)) {
+          if (typeof target === 'string' && target !== key) value[condition] = retarget(target)
+        }
+      }
+    }
   }
   writeFileSync(join(outDir, 'package.json'), `${JSON.stringify(manifest, null, 2)}\n`)
 }

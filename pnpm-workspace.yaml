@@ -1,2 +1,4 @@
+# pnpm 11 构建脚本白名单(自动生成占位 allowBuilds 的正规形态)。
+# esbuild 平台二进制经 optionalDependencies 提供,本项仅消除 Ignored build scripts 警告。
 allowBuilds:
-  esbuild: set this to true or false
+  esbuild: true
