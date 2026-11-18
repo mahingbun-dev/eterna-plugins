@@ -2,6 +2,18 @@
 
 从零到「发现」页可安装的完整流程。六步；每步都有校验兜底，出错会显式红而不是静默。
 
+## 步骤 0：平台内一键发布（推荐，2026-11-19 起）
+
+如果插件是在 EternaAgent 创造模式里开发的**工具型个人插件**（`install_personal_plugin` 安装过、纯 JS 入口），发布整条流水线已经内置在产品里——在会话里让 agent 调用 `submit_plugin_to_market`：
+
+- 自动完成本配方步骤 1-5 的全部机械工作：bundle 化改写（清单重写 / wrapper 入口 / `insert` 补丁行 / `engines.dsh` 兼容声明）→ 仓库分支两段 commit（bundle + 索引，索引钉 bundle SHA）→ `scripts/validate.mjs` 零漂移校验 → push 分支 → 开 PR；
+- 你只做一件事：**合并 PR**（main 有分支保护，CI validate 绿才能合）；
+- 版本缺省自动递增（首发 0.1.0）；`push=false` 可先停在本地分支自查。
+
+范围边界（如实登记）：仅工具型插件（声明 `dsh.client` 的 UI 型拒发）；目录含 `.ts` 源拒发（个人层契约本就要求纯 JS）。实现见 agent-basis `packages/access/src/market-publish.ts`。
+
+手工六步（下方）保留为等效路径——UI 型插件、非 EternaAgent 环境开发的插件走这里。
+
 ## 步骤 1：以 `template/` 为骨架开发插件
 
 ```bash
