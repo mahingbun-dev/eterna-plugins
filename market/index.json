@@ -1,0 +1,28 @@
+{
+  "format": 1,
+  "title": {
+    "en": "Eterna Plugins",
+    "zh": "Eterna 插件市场"
+  },
+  "description": {
+    "en": "Official plugin index of the EternaAgent plugin repository. Add this index source in the dsh Discover page and selectively install plugins.",
+    "zh": "EternaAgent 官方插件仓库索引。在 dsh「发现」页添加本索引源后即可按需选择性安装插件。"
+  },
+  "metadata": {
+    "categories": {
+      "tool": {
+        "title": {
+          "en": "Tools",
+          "zh": "工具扩展"
+        }
+      },
+      "bundle": {
+        "title": {
+          "en": "Bundles",
+          "zh": "组合包"
+        }
+      }
+    }
+  },
+  "plugins": []
+}

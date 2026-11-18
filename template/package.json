@@ -1,0 +1,21 @@
+{
+  "name": "@eterna/example",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "最小宿主插件 bundle 骨架。发布前：复制本目录到 bundles/<目录名>/，改名 name/version，并按 docs/PUBLISHING.md 走完发布配方。",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": ">=4.0.6-alpha.1",
+    "@deepseek-ai/dsh-tools": ">=0.2.2-alpha.2"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}

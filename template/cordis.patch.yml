@@ -1,0 +1,8 @@
+# bundle 补丁：新增行必须用 - insert:（insert 要求行带 id）。
+# 裸 id 行只按 id 覆写既有行，基础树无此 id 时被整行丢弃（dsh-app-boot
+# applyPatches："patch: entry %C not found" → continue），插件永远不进解析树——
+# 2026-11-04 E2E 实测教训，见 agent-basis market/glue-bundle/cordis.patch.yml 头注。
+# 行 id 全局唯一，命名建议 eterna-<插件名>；行序 = 插件 apply 序。
+- insert:
+    - id: eterna-example
+      name: '@eterna/example'
