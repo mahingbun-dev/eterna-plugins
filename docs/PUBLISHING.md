@@ -120,7 +120,7 @@ Actions）在 push/PR 重跑同款校验——本地绿 CI 即绿。
    `https://raw.githubusercontent.com/mahingbun-dev/eterna-plugins/main/market/index.json`
    （已添加过则点「插件索引」菜单刷新）；
 2. 找到新卡片 → 安装 → 确认对话框（显示钉版 commit 与来源 spec）→ 安装检查；
-3. 已安装标签启用 → 重启宿主生效（eterna-web profile 无 HMR）；
+3. 已安装标签启用 → 配置级变更即时重组合（`dsh --profile` 宿主默认开 HMR 配置重载，安装/启停结果 `applied`；浏览器刷新页面即见 UI）；仅替换已装载模块代码（重装同路径新版本）且 hmr `root: []` 时需重启宿主，或给 profile 配 `hmr root: ['.']`；
 4. 验收口径：日志 grep `skipping|incompatible` 为 0（agent-basis
    PLUGIN-AUTHORING §4 同款）；agent 会话内工具确实出现（宿主半边）或设置分区
    确实渲染（客户端半边）。
