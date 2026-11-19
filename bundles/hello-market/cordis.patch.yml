@@ -1,0 +1,4 @@
+# 由 EternaAgent submit_plugin_to_market 生成:新增行必须 - insert:(带 id)。
+- insert:
+    - id: eterna-hello-market
+      name: '@eterna/hello-market'

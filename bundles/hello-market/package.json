@@ -1,0 +1,21 @@
+{
+  "name": "@eterna/hello-market",
+  "version": "0.1.0",
+  "description": "示例:最小工具型个人插件(一键发布演示)",
+  "type": "module",
+  "main": "./__eterna_entry.js",
+  "exports": {
+    ".": "./__eterna_entry.js",
+    "./package.json": "./package.json"
+  },
+  "peerDependencies": {},
+  "engines": {
+    "dsh": ">=0.2.2-alpha.2"
+  },
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  }
+}
