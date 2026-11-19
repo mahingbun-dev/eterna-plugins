@@ -6,7 +6,10 @@ export function apply(ctx) {
     parameters: {
       text: { type: 'string', description: '想说的话(缺省 world)' },
     },
-    output: { schema: { type: 'string' } },
+    output: {
+      schema: { type: 'string' },
+      render: (_args, value) => [{ type: 'text', text: typeof value === 'string' ? value : JSON.stringify(value) }],
+    },
     async execute(args) {
       const text = typeof args.text === 'string' ? args.text : 'world'
       return `hello, ${text}! (hello-market 0.1.0 @ ${new Date().toISOString()})`
