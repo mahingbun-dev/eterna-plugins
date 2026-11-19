@@ -1,6 +1,6 @@
 {
   "name": "@eterna/hello-market",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "示例:最小工具型个人插件(一键发布演示)",
   "type": "module",
   "main": "./__eterna_entry.js",
