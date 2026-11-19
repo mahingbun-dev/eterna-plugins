@@ -263,11 +263,11 @@ for (const entry of plugins) {
       continue
     }
     if (existsSync(resolve(repoRoot, dir))) {
-      for (const version of versions) {
-        if (version.source?.type === 'git' && (version.source.path ?? dir)) {
-          await checkBundleDir(version.source.path ?? dir, entry, version)
-        }
-      }
+      // 工作区一致性只核对**最新版本**:旧版本由 versions[].source.commit 钉死,
+      // 安装按 commit+path 取旧 commit 内的同名目录(PUBLISHING「旧版本保留可装」);
+      // 而 bundles/<name> 目录随每次升版覆盖——拿旧 versions 条目核对工作区会
+      // 恒错配(package.json 新版本 ≠ 索引旧版本),多版本插件永远无法通过校验。
+      await checkBundleDir(newest.source.path ?? dir, entry, newest)
     } else if (newest.source.url !== CANONICAL_REPO_URL && newest.source.url !== `${CANONICAL_REPO_URL}.git`) {
       note(`插件 ${entry.name}：外部源 ${newest.source.url}，本仓无 ${dir}，跳过本地一致性检查（聚合源形态）`)
     } else {
