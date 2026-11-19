@@ -24,5 +24,40 @@
       }
     }
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "@eterna/hello-market",
+      "title": {
+        "en": "示例:最小工具型个人插件(一键发布演示)",
+        "zh": "示例:最小工具型个人插件(一键发布演示)"
+      },
+      "description": {
+        "en": "示例:最小工具型个人插件(一键发布演示)",
+        "zh": "示例:最小工具型个人插件(一键发布演示)"
+      },
+      "homepage": "https://github.com/mahingbun-dev/eterna-plugins",
+      "repository": {
+        "url": "https://github.com/mahingbun-dev/eterna-plugins",
+        "directory": "bundles/hello-market"
+      },
+      "metadata": {
+        "category": "tool",
+        "keywords": [
+          "hello-market"
+        ]
+      },
+      "versions": [
+        {
+          "version": "0.1.0",
+          "publishTimestamp": 1795052405,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/mahingbun-dev/eterna-plugins",
+            "commit": "e974cdf55a2d5ab39c8751b9c6189aa4482d5855",
+            "path": "bundles/hello-market"
+          }
+        }
+      ]
+    }
+  ]
 }
