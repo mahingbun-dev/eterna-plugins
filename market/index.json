@@ -48,6 +48,16 @@
       },
       "versions": [
         {
+          "version": "0.1.1",
+          "publishTimestamp": 1795053151,
+          "source": {
+            "type": "git",
+            "url": "https://github.com/mahingbun-dev/eterna-plugins",
+            "commit": "1633fc451214009b3f1b2ffac74d4670d85bed75",
+            "path": "bundles/hello-market"
+          }
+        },
+        {
           "version": "0.1.0",
           "publishTimestamp": 1795052405,
           "source": {
